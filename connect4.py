@@ -18,8 +18,8 @@ class ConnectFour:
 
         self.ROWS = 6
         self.COLUMNS = 7
-        self.CHECKER_RADIUS = 30
-        self.CHECKER_PADDING = 20
+        self.CHECKER_RADIUS = 20
+        self.CHECKER_PADDING = 15
 
         self.board_height = (
             self.CHECKER_RADIUS * 2 * self.ROWS + self.CHECKER_PADDING * (self.ROWS + 1)
@@ -32,6 +32,7 @@ class ConnectFour:
         self.board = [[0] * self.COLUMNS for _ in range(self.ROWS)]
         self.current_player = self.Player.RED
         self.column_under_mouse = -1
+        self.locked = False
 
         self.parent = parent
         self.canvas_checker_ids = [[-1] * self.COLUMNS for _ in range(self.ROWS)]
@@ -69,6 +70,8 @@ class ConnectFour:
         self.board_canvas.bind('<ButtonRelease-1>', self.mouse_click_handler)
 
     def mouse_motion_handler(self, event: tk.Event) -> None:
+        if self.locked:
+            return
         for column, threshold in self.column_ranges:
             if event.x in threshold:
                 self.column_under_mouse = column
@@ -79,6 +82,8 @@ class ConnectFour:
             self.unhighlight_columns()
 
     def mouse_click_handler(self, event: tk.Event) -> None:
+        if self.locked:
+            return
         self.place_checker(self.column_under_mouse)
 
     def switch_player(self) -> None:
@@ -92,7 +97,7 @@ class ConnectFour:
         self.board_canvas.itemconfigure(checker_id, fill=colour)
 
     def place_checker(self, column: int) -> None:
-        if self.column_under_mouse == -1:
+        if self.column_under_mouse == -1 or self.locked:
             return
         for row in range(self.ROWS - 1, -1, -1):
             if not self.board[row][column]:

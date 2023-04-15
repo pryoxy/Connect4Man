@@ -34,16 +34,15 @@ class Hangman:
         ]
 
         s = ttk.Style()
-        s.configure('TLabel', font=('Helvetica', 20, 'normal'))
-        s.configure('TButton', font=('Helvetica', 16, 'normal'))
+        s.configure('TLabel', font=('Courier', 16, 'normal'))
+        s.configure('TButton', font=('Courier', 12, 'normal'))
         m = s.map('TButton')
         s.map('Correct.TButton', foreground=[(tk.DISABLED, 'green')], **m)
         s.map('Wrong.TButton', foreground=[(tk.DISABLED, 'red')], **m)
 
         self.word = ''
-
+        self.init_labels()
         self.init_ui()
-
 
     def init_labels(self) -> None:
         for i in range(self.MAX_WORD_LENGTH):
@@ -51,11 +50,10 @@ class Hangman:
                 self.word_frame,
                 text='_' if i < len(self.word) else ' ',
                 width=2,
-                padding=5,
+                padding=1,
                 takefocus=False,
             )
             l.grid(row=0, column=i)
-
 
     def init_ui(self) -> None:
         alphabet = ['ABCDEFGHI', 'JKLMNOPQR', 'STUVWXYZ ']
@@ -66,7 +64,7 @@ class Hangman:
                     text=letter,
                     width=2,
                     takefocus=False,
-                    padding=5,
+                    padding=3,
                     command=lambda l=letter: self.guess_letter(l),  # type: ignore
                 )
                 b.grid(row=r, column=c)
@@ -103,7 +101,7 @@ class Hangman:
                 assert isinstance(label, ttk.Label)
                 label.configure(text=letter)
 
-    def prompt_for_input(self, prompt='Provide a Word') -> str:
+    def prompt_for_input(self, prompt='Provide a Word') -> None:
         word = tk.StringVar()
         while not word.get():
             HangmanWordEntry(
@@ -112,13 +110,16 @@ class Hangman:
                 word,
                 prompt,
             )
-        self.init_labels()
+        labels = [w for w in self.word_frame.grid_slaves() if isinstance(w, ttk.Label)]
+        labels.reverse()
+        for i, label in enumerate(labels):
+            label.configure(text='_' if i < len(word.get()) else ' ')
         self.alive = True
-        return word.get().upper()
+        self.word = word.get().upper()
 
     def reset(self) -> None:
         self.lost = False
-        self.word = self.prompt_for_input()
+        self.prompt_for_input()
         self.guessed_letters = set()
         self.lives_remaining = self.LIVES
         self.man_label.config(image=self.images[0])
@@ -137,6 +138,7 @@ def main():
     main_frame = tk.Frame(root)
     main_frame.grid(row=0, column=0)
     hg = Hangman(main_frame)
+    hg.prompt_for_input()
     root.mainloop()
 
 
