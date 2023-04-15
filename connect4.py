@@ -1,6 +1,5 @@
 import tkinter as tk
 from enum import Enum
-from random import randint
 
 
 class ConnectFour:
@@ -22,6 +21,15 @@ class ConnectFour:
         self.CHECKER_RADIUS = 30
         self.CHECKER_PADDING = 20
 
+        self.board_height = (
+            self.CHECKER_RADIUS * 2 * self.ROWS
+            + self.CHECKER_PADDING * (self.ROWS + 1)
+        )
+        self.board_width = (
+            self.CHECKER_RADIUS * 2 * self.COLUMNS
+            + self.CHECKER_PADDING * (self.COLUMNS + 1)
+        )
+
         self.board = [[0] * self.COLUMNS for _ in range(self.ROWS)]
         self.current_player = self.Player.RED
         self.column_under_mouse = -1
@@ -34,10 +42,8 @@ class ConnectFour:
             bd=0,
             bg=self.FRAME_COLOUR,
             highlightthickness=0,
-            height=self.CHECKER_RADIUS * 2 * self.ROWS
-            + self.CHECKER_PADDING * (self.ROWS + 1),
-            width=self.CHECKER_RADIUS * 2 * self.COLUMNS
-            + self.CHECKER_PADDING * (self.COLUMNS + 1),
+            height=self.board_height,
+            width=self.board_width,
         )
 
         self.init_board()
@@ -63,12 +69,6 @@ class ConnectFour:
         self.board_canvas.grid(row=0, column=0)
         self.board_canvas.bind('<Motion>', self.mouse_motion_handler)
         self.board_canvas.bind('<ButtonRelease-1>', self.mouse_click_handler)
-        self.parent.winfo_toplevel().bind(
-            '<Return>', lambda *_: self.place_checker(randint(0, 6))
-        )
-        self.parent.winfo_toplevel().bind(
-            'h', lambda *_: self.highlight_column(randint(0, 6))
-        )
 
     def mouse_motion_handler(self, event: tk.Event) -> None:
         for column, threshold in self.column_ranges:
@@ -189,6 +189,15 @@ class ConnectFour:
                 else:
                     break
         return False
+
+    def reset_game(self):
+        for idl in self.canvas_checker_ids:
+            for i in idl:
+                self.change_checker_colour(i, self.EMPTY_COLOUR)
+
+        self.board = [[0] * self.COLUMNS for _ in range(self.ROWS)]
+        self.current_player = self.Player.RED
+        self.column_under_mouse = -1
 
 
 def main():
