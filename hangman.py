@@ -1,4 +1,5 @@
 import time
+import string
 
 print('hello')
 
@@ -14,7 +15,7 @@ class Hangman:
 
     def play_game(self):    #starts playing game
         guesses = ''    #guesses of player
-        
+        alphabet = {}
         print('Start guessing') 
 
 
@@ -34,7 +35,7 @@ class Hangman:
                 print('won')
                 break
 
-            guess = input('\nguess a letter\n')
+            guess = input('\nguess a letter: ')
            
 
             guesses += guess
