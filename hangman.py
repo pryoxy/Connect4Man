@@ -29,7 +29,6 @@ class Hangman:
 
         self.init_ui()
 
-
     def init_ui(self) -> None:
         for i in range(self.MAX_WORD_LENGTH):
             l = ttk.Label(
@@ -69,6 +68,7 @@ class Hangman:
         else:
             button_pressed.config(style='Wrong.TButton')
             self.lives_remaining -= 1
+            # TODO: the man himself
         button_pressed.state([tk.DISABLED])
         self.update_word_display()
 
@@ -78,10 +78,15 @@ class Hangman:
                 assert isinstance(label, ttk.Label)
                 label.configure(text=letter)
 
-    def prompt_for_input(self) -> str:
+    def prompt_for_input(self, prompt='Provide a Word') -> str:
         word = tk.StringVar()
         while not word.get():
-            HangmanWordEntry(self.parent.winfo_toplevel(), self.MAX_WORD_LENGTH, word)
+            HangmanWordEntry(
+                self.parent.winfo_toplevel(),
+                self.MAX_WORD_LENGTH,
+                word,
+                prompt,
+            )
         return word.get().upper()
 
     def reset(self) -> None:

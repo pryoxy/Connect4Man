@@ -33,10 +33,15 @@ class AcknowledgementDialogue(Dialog):
 
 class HangmanWordEntry(Dialog):
     def __init__(
-        self, parent: tk.Toplevel | tk.Tk, max_len: int, word_var: tk.StringVar
+        self,
+        parent: tk.Toplevel | tk.Tk,
+        max_len: int,
+        word_var: tk.StringVar,
+        prompt: str,
     ) -> None:
         self.max_len = max_len
         self.word_var = word_var
+        self.prompt = prompt
         self.word_var.trace_add(
             'write',
             lambda *_: self.word_var.set(self.word_var.get().upper()),
@@ -47,13 +52,13 @@ class HangmanWordEntry(Dialog):
         self.resizable(False, False)
         word_label = ttk.Label(
             parent,
-            text='Provide a Word',
+            text=self.prompt,
         )
         self.word_entry = ttk.Entry(
             parent,
             exportselection=False,
             textvariable=self.word_var,
-            font = ttk.Style().configure('TButton')['font'],
+            font=ttk.Style().configure('TButton')['font'],
         )
         self.word_entry.bind(
             '<Control-KeyRelease-a>',
