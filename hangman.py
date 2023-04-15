@@ -17,7 +17,7 @@ class Hangman:
         
         print('Start guessing') 
 
-        
+    
         lives = self.LIVES 
         while lives > 0:
             for char in self.word:  #checks guesses and compares to word
@@ -45,10 +45,19 @@ class Hangman:
 
     def prompt_for_input(self):
         phrase = input('Enter in a word: ')
-        self.accept_word(phrase)
-        
+        while not phrase.isalpha():
+            print('Invalid entry. Try again.')
+            phrase = input('Enter in a word: ')
 
+        self.accept_word(phrase.lower())
+            
     def accept_word(self,word):
         self.word = word
 
 
+def main():
+    prompt_for_input();
+    prompt
+
+if __name__ == '__main__':
+    main()
