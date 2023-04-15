@@ -7,16 +7,19 @@ print('hello')
 # while loop that continuously prompts for user input for guessing words
 
 class Hangman:
-    
+    #init has everything that you want to keep in t
     def __init__(self,word):  #word is the word the user inputs
         self.word = word
+        self.LIVES = 6
 
     def play_game(self):    #starts playing game
         guesses = ''    #guesses of player
         
         print('Start guessing') 
 
-        while 1:
+        
+        lives = self.LIVES 
+        while lives > 0:
             for char in self.word:  #checks guesses and compares to word
                 if char in guesses:
                     print(char,end=''), #print guessed characters
