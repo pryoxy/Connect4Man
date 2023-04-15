@@ -32,11 +32,11 @@ class Hangman:
                     # failed = failed + 1
             
             if not failed:   #player won 
-                print('\nwon')
+                print('\nYou guessed the word!\nWait for next word')
                 break
 
             while 1:
-                guess = input('\nguess a letter: ')
+                guess = input('\nGuess a letter: ')
                 if guess not in guesses:
                     break
                 else:
@@ -47,17 +47,17 @@ class Hangman:
 
             if guess not in self.word:
                 #add timer decrease
-                print('wrong')
+                print('Incorrect guess\n')
+                print('Lives left: ' + lives)
                 lives -= 1
                 if not lives:
                     lives = self.LIVES
-                    print('Ran out of lifes')
-                    time.sleep(10)
+                    print('Ran out of lives')
+                    time.sleep(5)
             else:
                 cons_guess += 1
                 if cons_guess > 2:
-                    ...
-                    #add timeout
+                    time.sleep(5)
 
     def prompt_for_input(self):
         phrase = input('Enter in a word: ')
