@@ -15,14 +15,14 @@ class Hangman:
 
     def play_game(self):    #starts playing game
         guesses = ''    #guesses of player
-        alphabet = {}
         print('Start guessing') 
 
 
         lives = self.LIVES 
-        failed = 0
         cons_guess = 0
         while lives > 0:
+            failed = 0
+            
             for char in self.word:  #checks guesses and compares to word
                 if char in guesses:
                     print(char,end='') #print guessed characters
@@ -32,10 +32,15 @@ class Hangman:
                     # failed = failed + 1
             
             if not failed:   #player won 
-                print('won')
+                print('\nwon')
                 break
 
-            guess = input('\nguess a letter: ')
+            while(1):
+                guess = input('\nguess a letter: ')
+                if guess not in guesses:
+                    break
+                else:
+                    print('\nYou already guessed that')
            
 
             guesses += guess
