@@ -10,9 +10,13 @@ class Connect4Man:
         self.c = c
         self.rh = rh
 
+        self.c.locked = True
+
         lh.prompt_for_input('Player 1 enter a word')
         rh.prompt_for_input('Player 2 enter a word')
-
+    
+    def player_state_change(self, lh: Hangman, rh: Hangman, c: ConnectFour):
+        if(self.lh.a)
 
 def main():
     root = tk.Tk()

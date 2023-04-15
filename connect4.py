@@ -1,7 +1,6 @@
 import tkinter as tk
 from enum import Enum
-
-
+import time
 class ConnectFour:
     class Player(Enum):
         RED = 1
