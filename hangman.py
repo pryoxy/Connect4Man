@@ -121,9 +121,9 @@ class Hangman:
         self.alive = True
         self.word = word.get().upper()
 
-    def reset(self) -> None:
+    def reset(self, msg='Provide a Word') -> None:
         self.lost = False
-        self.prompt_for_input()
+        self.prompt_for_input(msg)
         self.guessed_letters = set()
         self.lives_remaining = self.LIVES
         self.man_label.config(image=self.images[0])

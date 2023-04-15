@@ -32,6 +32,7 @@ class ConnectFour:
         self.current_player = self.Player.RED
         self.column_under_mouse = -1
         self.locked = True
+        self.last_pos = (-1, -1)
 
         self.checker_var = tk.BooleanVar()
         self.parent = parent
@@ -103,6 +104,7 @@ class ConnectFour:
             if not self.board[row][column]:
                 player_val: int = self.current_player.value
                 self.board[row][column] = player_val
+                self.last_pos = (row, column)
                 self.checker_var.set(not self.checker_var.get())
                 self.change_checker_colour(
                     self.canvas_checker_ids[row][column],
