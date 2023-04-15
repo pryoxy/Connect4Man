@@ -1,24 +1,26 @@
 import tkinter as tk
-import tkinter.messagebox as messagebox
-import tkinter.simpledialog as simpledialogue
 import tkinter.ttk as ttk
+
+from dialogues import HangmanWordEntry
 
 
 class Hangman:
     def __init__(self, parent: tk.Widget) -> None:
+        self.parent = parent
+
         self.LIVES = 6
-        self.MAX_GUESS_LENGTH = 12
-        self.word = self.prompt_for_input()
+        self.MAX_WORD_LENGTH = 12
 
         self.guessed_letters: set[str] = set()
         self.lives_remaining = self.LIVES
 
-        self.parent = parent
         self.word_frame = ttk.Frame(parent)
         self.button_frame = ttk.Frame(parent)
         self.button_mapping: dict[str, ttk.Button] = {}
 
         self.init_ui()
+
+        self.word = self.prompt_for_input()
 
     def init_ui(self) -> None:
         s = ttk.Style()
@@ -28,7 +30,7 @@ class Hangman:
         s.map('Correct.TButton', foreground=[(tk.DISABLED, 'green')], **m)
         s.map('Wrong.TButton', foreground=[(tk.DISABLED, 'red')], **m)
 
-        for i in range(self.MAX_GUESS_LENGTH):
+        for i in range(self.MAX_WORD_LENGTH):
             l = ttk.Label(
                 self.word_frame,
                 text='_' if i < len(self.word) else ' ',
@@ -74,16 +76,9 @@ class Hangman:
                 label.configure(text=letter)
 
     def prompt_for_input(self) -> str:
-        word = simpledialogue.askstring(
-            title='Connect4Man',
-            prompt=f'Provide a word:\n(A-Z, {self.MAX_GUESS_LENGTH} letters long)',
-        )
-        assert word is not None
-        # word = input('Enter in a word: ')
-        while not word.isalpha() and len(word) <= self.MAX_GUESS_LENGTH:
-            print('Invalid entry. Try again.')
-            word = input('Enter in a word: ')
-        return word.upper()
+        word = tk.StringVar()
+        HangmanWordEntry(self.parent.winfo_toplevel(), self.MAX_WORD_LENGTH, word)
+        return word.get().upper()
 
 
 def main():
