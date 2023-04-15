@@ -32,8 +32,13 @@ class Hangman:
             guesses += guess
 
             if guess not in self.word:
-                print('wrong')
-                
+                #add timer decrease
+                print('wrong'),
+            else:
+                cons_guess += 1
+                if cons_guess > 2:
+                    #add timeout
+
 
 
 
