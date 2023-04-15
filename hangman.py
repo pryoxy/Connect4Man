@@ -45,7 +45,7 @@ class Hangman:
 
     def prompt_for_input(self):
         phrase = input('Enter in a word: ')
-        phrase = self.word 
+        self.accept_word(phrase)
         
 
     def accept_word(self,word):
