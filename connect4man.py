@@ -1,4 +1,5 @@
 import tkinter as tk
+import time
 
 from hangman import Hangman
 from connect4 import ConnectFour
@@ -9,8 +10,8 @@ class Connect4Man:
         self.c = c
         self.rh = rh
 
-        lh.prompt_for_input()
-        rh.prompt_for_input()
+        lh.prompt_for_input('Player 1 enter a word')
+        rh.prompt_for_input('Player 2 enter a word')
 
 
 def main():
