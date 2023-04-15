@@ -10,13 +10,22 @@ class Connect4Man:
         self.c = c
         self.rh = rh
 
+        self.lh.last_button_press_status.trace_add('write', lambda *_: self.handle_lh_guess())
+        self.rh.last_button_press_status.trace_add('write', lambda *_: self.handle_rh_guess())
+
         self.c.locked = True
 
-        lh.prompt_for_input('Player 1 enter a word')
-        rh.prompt_for_input('Player 2 enter a word')
-    
-    def player_state_change(self, lh: Hangman, rh: Hangman, c: ConnectFour):
-        if(self.lh.a)
+        self.lh.prompt_for_input('Player 1 enter a word')
+        self.rh.prompt_for_input('Player 2 enter a word')
+
+    def handle_lh_guess(self):
+        ...
+
+    def handle_rh_guess(self):
+        ...
+
+    # def player_state_change(self, lh: Hangman, rh: Hangman, c: ConnectFour):
+    #     if(self.lh.a)
 
 def main():
     root = tk.Tk()

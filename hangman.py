@@ -41,6 +41,7 @@ class Hangman:
         s.map('Correct.TButton', foreground=[(tk.DISABLED, 'green')], **m)
         s.map('Wrong.TButton', foreground=[(tk.DISABLED, 'red')], **m)
 
+        self.last_button_press_status = tk.StringVar()
         self.word = ''
         self.init_labels()
         self.init_ui()
@@ -87,8 +88,10 @@ class Hangman:
         self.guessed_letters.add(letter)
         if letter in self.word:
             button_pressed.config(style='Correct.TButton')
+            self.last_button_press_status.set('correct')
         else:
             button_pressed.config(style='Wrong.TButton')
+            self.last_button_press_status.set('wrong')
             self.lives_remaining -= 1
             self.man_label.config(image=self.images[6 - self.lives_remaining])
             if not self.lives_remaining:
