@@ -65,7 +65,6 @@ class ConnectFour:
                 self.canvas_checker_ids[r][c] = checker_id
                 self.column_ranges.append((c, range(x0, x0 + 2 * self.CHECKER_RADIUS)))
 
-        self.parent.grid(row=0, column=0)
         self.board_canvas.grid(row=0, column=0)
         self.board_canvas.bind('<Motion>', self.mouse_motion_handler)
         self.board_canvas.bind('<ButtonRelease-1>', self.mouse_click_handler)
@@ -202,7 +201,10 @@ class ConnectFour:
 
 def main():
     root = tk.Tk()
+    root.title('Connect 4')
+    root.resizable(False, False)
     main_frame = tk.Frame(root)
+    main_frame.grid(row=0, column=0)
     ConnectFour(main_frame)
     root.mainloop()
 

@@ -1,7 +1,38 @@
+import tkinter as tk
+import tkinter.ttk as ttk
+
 class Hangman:
-    def __init__(self) -> None:
+    def __init__(self, parent: tk.Widget) -> None:
         self.LIVES = 6
         self.word = self.prompt_for_input()
+
+        self.parent = parent
+        self.button_frame = ttk.Frame(parent)
+        self.button_mapping: dict[str, ttk.Button] = {}
+
+        self.init_ui()
+
+    def init_ui(self) -> None:
+        ttk.Style().configure('TButton', font=('Helvetica', 16, 'normal'))
+        alphabet = ['ABCDEFGHI', 'JKLMNOPQR', 'STUVWXYZ ']
+        for r, sub_alpha in enumerate(alphabet):
+            for c, letter in enumerate(sub_alpha):
+                b = ttk.Button(
+                    self.button_frame,
+                    text=letter,
+                    width=2,
+                    takefocus=False,
+                    padding=5,
+                    command=lambda l=letter: self.guess_letter(l)  # type: ignore
+                )
+                b.grid(row=r, column=c)
+                self.button_mapping[letter] = b
+        self.button_mapping[' '].state([tk.DISABLED])
+        self.button_frame.grid(row=1, column=0)
+
+    def guess_letter(self, letter: str) -> None:
+         button_pressed = self.button_mapping[letter]
+         button_pressed.state([tk.DISABLED])
 
     def play_game(self) -> None:
         print('Start guessing')
@@ -44,8 +75,14 @@ class Hangman:
 
 
 def main():
-    testGame = Hangman()
-    testGame.play_game()
+    root = tk.Tk()
+    root.title('Hangman')
+    root.resizable(False, False)
+    main_frame = tk.Frame(root)
+    main_frame.grid(row=0, column=0)
+    hg = Hangman(main_frame)
+    hg.play_game()
+    root.mainloop()
 
 
 if __name__ == '__main__':
