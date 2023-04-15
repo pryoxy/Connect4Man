@@ -4,11 +4,18 @@ from hangman import Hangman
 from connect4 import ConnectFour
 
 class Connect4Man:
-    ...
+    def __init__(self, lh: Hangman, rh: Hangman, c: ConnectFour):
+        self.lh = lh
+        self.c = c
+        self.rh = rh
+
+        lh.prompt_for_input()
+        rh.prompt_for_input()
 
 
 def main():
     root = tk.Tk()
+    root.resizable(False, False)
     main_frame = tk.Frame(root)
     left_hm_f = tk.Frame(main_frame)
     c4_f = tk.Frame(main_frame)
@@ -23,6 +30,8 @@ def main():
     left_hm_f.grid(row=0, column=0)
     c4_f.grid(row=0, column=1)
     right_hm_f.grid(row=0, column=2)
+
+    Connect4Man(left_hangman, right_hangman, connect_4)
 
     root.mainloop()
 

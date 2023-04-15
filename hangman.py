@@ -14,6 +14,7 @@ class Hangman:
         self.guessed_letters: set[str] = set()
         self.lives_remaining = self.LIVES
         self.lost = False
+        self.alive = False
 
         self.man_label = ttk.Label(self.parent)
         self.word_frame = ttk.Frame(self.parent)
@@ -39,11 +40,12 @@ class Hangman:
         s.map('Correct.TButton', foreground=[(tk.DISABLED, 'green')], **m)
         s.map('Wrong.TButton', foreground=[(tk.DISABLED, 'red')], **m)
 
-        self.word = self.prompt_for_input()
+        self.word = ''
 
         self.init_ui()
 
-    def init_ui(self) -> None:
+
+    def init_labels(self) -> None:
         for i in range(self.MAX_WORD_LENGTH):
             l = ttk.Label(
                 self.word_frame,
@@ -54,6 +56,8 @@ class Hangman:
             )
             l.grid(row=0, column=i)
 
+
+    def init_ui(self) -> None:
         alphabet = ['ABCDEFGHI', 'JKLMNOPQR', 'STUVWXYZ ']
         for r, sub_alpha in enumerate(alphabet):
             for c, letter in enumerate(sub_alpha):
@@ -78,7 +82,7 @@ class Hangman:
         self.parent.winfo_toplevel().bind('r', lambda *_: self.reset())
 
     def guess_letter(self, letter: str) -> None:
-        if self.lost:
+        if self.lost or not self.alive:
             return
         button_pressed = self.button_mapping[letter]
         self.guessed_letters.add(letter)
@@ -108,6 +112,8 @@ class Hangman:
                 word,
                 prompt,
             )
+        self.init_labels()
+        self.alive = True
         return word.get().upper()
 
     def reset(self) -> None:
