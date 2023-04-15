@@ -20,9 +20,9 @@ class Hangman:
 
         lives = self.LIVES 
         cons_guess = 0
-        while lives > 0:
+        while 1:
             failed = 0
-            
+
             for char in self.word:  #checks guesses and compares to word
                 if char in guesses:
                     print(char,end='') #print guessed characters
@@ -35,7 +35,7 @@ class Hangman:
                 print('\nwon')
                 break
 
-            while(1):
+            while 1:
                 guess = input('\nguess a letter: ')
                 if guess not in guesses:
                     break
@@ -47,7 +47,12 @@ class Hangman:
 
             if guess not in self.word:
                 #add timer decrease
-                print('wrong'),
+                print('wrong')
+                lives -= 1
+                if not lives:
+                    lives = self.LIVES
+                    print('Ran out of lifes')
+                    time.sleep(10)
             else:
                 cons_guess += 1
                 if cons_guess > 2:
