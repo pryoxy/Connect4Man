@@ -1,7 +1,5 @@
 import time
-import string
 
-print('hello')
 
 #prompting the person to enter in 5 words 
 #sets of each word is stored as a string. Each set of strings is stored in its own array
@@ -19,7 +17,7 @@ class Hangman:
 
 
         lives = self.LIVES 
-        cons_guess = 0
+        cons_guess = 0 #continues guesses
         while 1:
             failed = 0
 
