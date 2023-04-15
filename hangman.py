@@ -1,6 +1,6 @@
+import time
 import tkinter as tk
 import tkinter.ttk as ttk
-import time
 
 from dialogues import HangmanWordEntry
 
@@ -14,7 +14,7 @@ class Hangman:
 
         self.guessed_letters: set[str] = set()
         self.lives_remaining = self.LIVES
-        self.lost = False
+        self.lost = tk.BooleanVar(value=False)
         self.alive = False
 
         self.man_label = ttk.Label(self.parent)
@@ -79,12 +79,11 @@ class Hangman:
         self.word_frame.grid(row=1, column=0, padx=5, pady=5)
         self.button_frame.grid(row=2, column=0, padx=5, pady=5)
 
-        self.parent.winfo_toplevel().bind('r', lambda *_: self.reset())
-
     def guess_letter(self, letter: str) -> None:
-        if self.lost or not self.alive:
+        if self.lost.get() or not self.alive:
             return
         button_pressed = self.button_mapping[letter]
+        button_pressed.state([tk.DISABLED])
         self.guessed_letters.add(letter)
         if letter in self.word:
             button_pressed.config(style='Correct.TButton')
@@ -93,10 +92,9 @@ class Hangman:
             button_pressed.config(style='Wrong.TButton')
             self.last_button_press_status.set('wrong')
             self.lives_remaining -= 1
-            self.man_label.config(image=self.images[6 - self.lives_remaining])
+            self.man_label.config(image=self.images[self.LIVES - self.lives_remaining])
             if not self.lives_remaining:
-                self.lost = True
-        button_pressed.state([tk.DISABLED])
+                self.lost.set(True)
         self.update_word_display()
 
     def update_word_display(self) -> None:
@@ -122,10 +120,10 @@ class Hangman:
         self.word = word.get().upper()
 
     def reset(self, msg='Provide a Word') -> None:
-        self.lost = False
-        self.prompt_for_input(msg)
+        self.lost.set(False)
         self.guessed_letters = set()
         self.lives_remaining = self.LIVES
+        self.prompt_for_input(msg)
         self.man_label.config(image=self.images[0])
         for button in self.button_mapping.values():
             button.state([f'!{tk.DISABLED}'])

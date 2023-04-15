@@ -1,6 +1,8 @@
+import time
 import tkinter as tk
 from enum import Enum
-import time
+
+
 class ConnectFour:
     class Player(Enum):
         RED = 1
@@ -112,10 +114,7 @@ class ConnectFour:
                     if self.current_player is self.Player.RED
                     else self.YELLOW_COLOUR,
                 )
-                # if self.check_wins(row, column):
-                #     print(self.current_player.name)
                 self.switch_player()
-                self.highlight_column(column)
                 return
 
     def highlight_column(self, column: int) -> None:
