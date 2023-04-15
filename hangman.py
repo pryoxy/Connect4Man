@@ -17,21 +17,26 @@ class Hangman:
         
         print('Start guessing') 
 
-    
+
         lives = self.LIVES 
+        failed = 0
+        cons_guess = 0
         while lives > 0:
             for char in self.word:  #checks guesses and compares to word
                 if char in guesses:
-                    print(char,end=''), #print guessed characters
+                    print(char,end='') #print guessed characters
                 else:
-                    print('_',end=''),  #print dash for unknown
+                    print('_ ',end='')  #print dash for unknown
                     failed += 1
+                    # failed = failed + 1
             
-            if failed == 0:   #player won 
+            if not failed:   #player won 
                 print('won')
                 break
 
-            guess = input('guess a letter')
+            guess = input('\nguess a letter\n')
+           
+
             guesses += guess
 
             if guess not in self.word:
@@ -56,8 +61,10 @@ class Hangman:
 
 
 def main():
-    prompt_for_input();
-    prompt
+    testGame = Hangman()
+    testGame.prompt_for_input()
+    testGame.play_game()
+    
 
 if __name__ == '__main__':
     main()
