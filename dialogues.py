@@ -53,6 +53,7 @@ class HangmanWordEntry(Dialog):
             parent,
             exportselection=False,
             textvariable=self.word_var,
+            font = ttk.Style().configure('TButton')['font'],
         )
         self.word_entry.bind(
             '<Control-KeyRelease-a>',
@@ -64,14 +65,6 @@ class HangmanWordEntry(Dialog):
 
     def buttonbox(self) -> None:
         box = ttk.Frame(self)
-        w = ttk.Button(
-            box,
-            text='Cancel',
-            width=10,
-            command=self.cancel,
-            default=tk.ACTIVE,
-        )
-        w.pack(side=tk.LEFT, padx=5, pady=5)
         w = ttk.Button(
             box,
             text='Submit',
