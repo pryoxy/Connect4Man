@@ -8,9 +8,9 @@ print('hello')
 
 class Hangman:
     #init has everything that you want to keep in t
-    def __init__(self,word):  #word is the word the user inputs
-        self.word = word
+    def __init__(self):  #word is the word the user inputs
         self.LIVES = 6
+        self.word = ''
 
     def play_game(self):    #starts playing game
         guesses = ''    #guesses of player
@@ -40,8 +40,15 @@ class Hangman:
             else:
                 cons_guess += 1
                 if cons_guess > 2:
+                    ...
                     #add timeout
 
+    def prompt_for_input(self):
+        phrase = input('Enter in a word: ')
+        phrase = self.word 
+        
 
+    def accept_word(self,word):
+        self.word = word
 
 
