@@ -31,8 +31,9 @@ class ConnectFour:
         self.board = [[0] * self.COLUMNS for _ in range(self.ROWS)]
         self.current_player = self.Player.RED
         self.column_under_mouse = -1
-        self.locked = False
+        self.locked = True
 
+        self.checker_var = tk.BooleanVar()
         self.parent = parent
         self.canvas_checker_ids = [[-1] * self.COLUMNS for _ in range(self.ROWS)]
         self.column_ranges: list[tuple[int, range]] = []
@@ -102,14 +103,15 @@ class ConnectFour:
             if not self.board[row][column]:
                 player_val: int = self.current_player.value
                 self.board[row][column] = player_val
+                self.checker_var.set(not self.checker_var.get())
                 self.change_checker_colour(
                     self.canvas_checker_ids[row][column],
                     self.RED_COLOUR
                     if self.current_player is self.Player.RED
                     else self.YELLOW_COLOUR,
                 )
-                if self.check_wins(row, column):
-                    print(self.current_player.name)
+                # if self.check_wins(row, column):
+                #     print(self.current_player.name)
                 self.switch_player()
                 self.highlight_column(column)
                 return
