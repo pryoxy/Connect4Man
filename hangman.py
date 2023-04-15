@@ -13,10 +13,24 @@ class Hangman:
 
         self.guessed_letters: set[str] = set()
         self.lives_remaining = self.LIVES
+        self.lost = False
 
-        self.word_frame = ttk.Frame(parent)
-        self.button_frame = ttk.Frame(parent)
+        self.man_label = ttk.Label(self.parent)
+        self.word_frame = ttk.Frame(self.parent)
+        self.button_frame = ttk.Frame(self.parent)
         self.button_mapping: dict[str, ttk.Button] = {}
+        self.images = [
+            tk.PhotoImage(file=f)
+            for f in (
+                'Hangman_1.png',
+                'Hangman_2.png',
+                'Hangman_3.png',
+                'Hangman_4.png',
+                'Hangman_5.png',
+                'Hangman_6.png',
+                'Hangman_7.png',
+            )
+        ]
 
         s = ttk.Style()
         s.configure('TLabel', font=('Helvetica', 20, 'normal'))
@@ -55,12 +69,17 @@ class Hangman:
                 self.button_mapping[letter] = b
         self.button_mapping[' '].state([tk.DISABLED])
 
-        self.word_frame.grid(row=0, column=0, padx=5, pady=5)
-        self.button_frame.grid(row=1, column=0, padx=5, pady=5)
+        self.man_label.config(image=self.images[0])
+
+        self.man_label.grid(row=0, column=0, padx=5, pady=5)
+        self.word_frame.grid(row=1, column=0, padx=5, pady=5)
+        self.button_frame.grid(row=2, column=0, padx=5, pady=5)
 
         self.parent.winfo_toplevel().bind('r', lambda *_: self.reset())
 
     def guess_letter(self, letter: str) -> None:
+        if self.lost:
+            return
         button_pressed = self.button_mapping[letter]
         self.guessed_letters.add(letter)
         if letter in self.word:
@@ -68,7 +87,9 @@ class Hangman:
         else:
             button_pressed.config(style='Wrong.TButton')
             self.lives_remaining -= 1
-            # TODO: the man himself
+            self.man_label.config(image=self.images[6 - self.lives_remaining])
+            if not self.lives_remaining:
+                self.lost = True
         button_pressed.state([tk.DISABLED])
         self.update_word_display()
 
@@ -90,9 +111,11 @@ class Hangman:
         return word.get().upper()
 
     def reset(self) -> None:
+        self.lost = False
         self.word = self.prompt_for_input()
         self.guessed_letters = set()
         self.lives_remaining = self.LIVES
+        self.man_label.config(image=self.images[0])
         for button in self.button_mapping.values():
             button.state([f'!{tk.DISABLED}'])
         labels = [w for w in self.word_frame.grid_slaves() if isinstance(w, ttk.Label)]
