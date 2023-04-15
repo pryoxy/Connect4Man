@@ -18,8 +18,8 @@ class ConnectFour:
 
         self.ROWS = 6
         self.COLUMNS = 7
-        self.CHECKER_RADIUS = 30
-        self.CHECKER_PADDING = 20
+        self.CHECKER_RADIUS = 40
+        self.CHECKER_PADDING = 25
 
         self.board_height = (
             self.CHECKER_RADIUS * 2 * self.ROWS + self.CHECKER_PADDING * (self.ROWS + 1)
